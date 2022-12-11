@@ -204,7 +204,6 @@ public:
         std::cout << "value of box minus window= " << s << std::endl;
     }
 
-
 };
 
 int main() {
