@@ -33,11 +33,11 @@ public:
 
     /** default constructor */
     /** 'explicit' - got parameters with defaults and prevents converting types */
-    explicit Box(){
+    Box(){
         setLength(10);
         setHeight(10);
         setWidth(10);
-        std::cout << "Default constructor\n";
+        std::cout << "Three default Box parameters constructor\n";
     };
 
     /** one parameter */
@@ -45,7 +45,7 @@ public:
         setLength(x);
         setHeight(10);
         setWidth(10);
-        std::cout << "One parameter constructor\n";
+        std::cout << "One manual Box parameters constructor\n";
     };
 
     /** two parameters */
@@ -53,7 +53,7 @@ public:
         setLength(x);
         setHeight(y);
         setWidth(10);
-        std::cout << "Two parameters constructor\n";
+        std::cout << "Two manual Box parameters constructor\n";
     };
 
     /** three parameters */
@@ -61,7 +61,7 @@ public:
         setLength(x);
         setWidth(y);
         setHeight(z);
-        std::cout << "Three parameters constructor\n";
+        std::cout << "Three manual Box parameters constructor\n";
     }
 
     /** copy constructor */
@@ -69,15 +69,18 @@ public:
         setLength(ref.GetLength());
         setHeight(ref.GetHeight());
         setWidth(ref.GetWidth());
+        std::cout << "Copy constructor for Box class\n";
     }
 
     /** destructor */
-    ~Box() {std::cout << "Destructor initialized\n";}
+    ~Box() {
+        std::cout << "Box destructor initialized" << std::endl;
+    }
 
     /** area of box method */
     void area() override {
         int s = GetLength()*GetWidth() + 2*GetLength()*GetHeight() + 2*GetWidth()*GetHeight();
-        std::cout << "value of box= " << s << std::endl;
+        std::cout << "Box value= " << s << std::endl;
     }
 
     /** second part */
@@ -128,7 +131,7 @@ Box operator+(Box op1, Box op2){
 };
 
 /** forth part */
-class WBox: public Box{
+class WBox: virtual public Box{
     int w_window, h_window;
 public:
     /** getters */
@@ -149,77 +152,145 @@ public:
     explicit WBox(): Box(){
         setWWindow(5);
         setHWindow(5);
-        std::cout << "Three Default parameters constructor\n";
+        std::cout << "Three default Box + two default WBox parameters constructor\n";
     };
-
-//    /** one parameter */
-//    explicit WBox(int a): Box(){
-//        setLength(a);
-//        setWidth(1);
-//        setHeight(1);
-//        setWWindow(5);
-//        setHWindow(5);
-//        std::cout << "One parameter constructor\n";
-//    }
-//
-//    /** two parameters */
-//    explicit WBox(int a, int b): Box(){
-//        setLength(a);
-//        setWidth(b);
-//        setHeight(1);
-//        setWWindow(5);
-//        setHWindow(5);
-//        std::cout << "Two parameters constructor\n";
-//    }
 
     /** four parameters */
     explicit WBox(int _w_window): Box(){
         setWWindow(_w_window);
         setHWindow(5);
-        std::cout << "Four parameters constructor\n";
+        std::cout << "Three default Box + one manual WBox parameters constructor\n";
     }
 
     /** five parameters */
     explicit WBox(int _w_window, int _h_window): Box(){
         setWWindow(_w_window);
         setHWindow(_h_window);
-        std::cout << "Five parameters constructor\n";
+        std::cout << "Three default Box + two manual WBox parameters constructor\n";
+    }
+
+    /** five parameters */
+    explicit WBox(int _length, int _width, int _height, int _w_window, int _h_window): Box(_length, _width, _height){
+        setWWindow(_w_window);
+        setHWindow(_h_window);
+        std::cout << "Three manual Box + two manual WBox parameters constructor\n";
     }
 
     /** copy constructor */
-    WBox(const WBox& ref){
-        setLength(ref.GetLength());
-        setWidth(ref.GetWidth());
-        setHeight(ref.GetHeight());
+    WBox(const WBox& ref): Box(ref){
         setWWindow(ref.GetWWindow());
         setHWindow(ref.GetHWindow());
+        std::cout << "Copy constructor for WBox class\n";
     }
 
     /** area of box method */
     void area() override {
         int s = GetLength()*GetWidth() + 2*GetLength()*GetHeight() + 2*GetWidth()*GetHeight()  - GetWWindow()*GetHWindow();
-        std::cout << "value of box minus window= " << s << std::endl;
+        std::cout << "WBox value minus window= " << s << std::endl;
+    }
+};
+
+/** fifth part */
+class HBox: virtual public Box{
+    int h_height;
+public:
+    /** getters */
+    int GetHBoxHeight() const { return h_height; }
+
+    /** setters */
+    void setHBoxHeight(int _h_height){
+        h_height = _h_height;
     }
 
+    /** default constructor */
+    /** 'explicit' - got parameters with defaults and prevents converting types */
+    HBox(): Box(){
+        setHBoxHeight(5);
+        std::cout << "Three default Box + one default HBox parameters constructor\n";
+    };
+
+    /** one parameter for HBox */
+    explicit HBox(int _h_height): Box(){
+        setHBoxHeight(_h_height);
+        std::cout << "Three default Box + one manual HBox parameters constructor\n";
+    }
+
+    /** one parameter for HBox */
+    explicit HBox(int _length, int _width, int _height, int _h_height): Box(_length, _width, _height){
+        setHBoxHeight(_h_height);
+        std::cout << "Three manual Box + one manual HBox parameters constructor\n";
+    }
+
+    /** copy constructor */
+    HBox(const HBox& ref): Box(ref){
+        setHBoxHeight(ref.GetHBoxHeight());
+        std::cout << "Copy constructor for HBox class\n";
+    }
+
+    /** area of box method */
+    void area() override {
+        int s = 2*GetLength()*GetWidth() + 2*GetLength()*GetHeight() + 2*GetWidth()*GetHeight()
+                + 2*GetLength()*GetHBoxHeight() + 2*GetWidth()*GetHBoxHeight();
+        std::cout << "Box plus HBox value= " << s << std::endl;
+    }
+
+    /** destructor */
+    ~HBox(){
+        std::cout << "HBox destructor initialized" << std::endl;
+    }
+};
+
+/** sixth part */
+class WHBox: public WBox, public HBox{
+public:
+    /** default constructor */
+    /** 'explicit' - got parameters with defaults and prevents converting types */
+    WHBox(): Box(), WBox(), HBox(){
+        std::cout << "Two default WBox + one default HBox parameters constructor\n";
+    };
+
+    /** five parameters for WHBox */
+    WHBox(int _length, int _width, int _height, int _w_window, int _h_window, int _h_height):
+        Box(_length, _width, _height),
+        WBox(_w_window, _h_window),
+        HBox(_h_height){
+        std::cout << "Three manual Box + one manual HBox parameters constructor\n";
+    }
+
+    /** area of box method */
+    void area() override {
+        int s = 2*GetLength()*GetWidth() + 2*GetLength()*GetHeight() + 2*GetWidth()*GetHeight()
+                + 2*GetLength()*GetHBoxHeight() + 2*GetWidth()*GetHBoxHeight() - GetWWindow()*GetHWindow();
+        std::cout << "Box plus HBox and minus WBox value= " << s << std::endl;
+    }
 };
 
 int main() {
-    Box b0;
-    Box b1(11);
-    Box b2(11,12);
-    Box b3(10,10,10);
-    Box b4(10,10,10);
-    b3.area();
-    Box bc = b3++;
-    Box bc1 = b3+b4;
-    b3.area();
-    bc1.area();
-    std::cout << "b3: " << bc1.GetWidth() << std::endl;
-    std::cout << "bc: " << bc.GetWidth() << std::endl;
+    Box box;
+    box.area();
+    Box box1(11);
+    box1.area();
+    Box box2(11,12);
+    box2.area();
+    Box box3(10,10,10);
+    box3.area();
+    Box box4(10,10,10);
+    box4.area();
+    Box bc = box3++;
     bc.area();
+    Box bc1 = box3+box4;
+    bc1.area();
+//    std::cout << "b3: " << bc1.GetWidth() << std::endl;
+//    std::cout << "bc: " << bc.GetWidth() << std::endl;
     WBox wb(6,7);
-    std::cout << "wb: " << wb.GetWWindow() << std::endl;
+//    std::cout << "wb: " << wb.GetWWindow() << std::endl;
     wb.area();
+    HBox hBox;
+    hBox.area();
+    WHBox whBox;
+    whBox.area();
+    WHBox whBox1(11,11,11,6,6,7);
+    whBox1.area();
     return 0;
 }
 
