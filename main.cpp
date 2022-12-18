@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
+
 /** third part */
 class Body {
 public:
@@ -322,6 +323,72 @@ public:
     }
 };
 
+
+/** ------------------------------------------------------------- */
+/** class stack */
+#define SIZE 10
+class Stack{
+//    int *arr;
+    double *arr;
+    int top;
+    int capacity;
+public:
+    Stack(int size = SIZE) {
+//        arr = new int[size];
+        arr =  new double[size];
+        capacity = size;
+        top = -1;
+
+    };
+    ~Stack() {
+        delete[] arr;
+    }
+
+//    void push(int x) {
+//        if (isFull()) {
+//            std::cout << "Stack is full\nTerminating program" << std::endl;
+//            exit(EXIT_FAILURE);
+//        }
+//        std::cout << "Adding " << x << std::endl;
+//        arr[++top] = x;
+//    }
+    void push(double f) {
+        if (isFull()) {
+            std::cout << "Stack is full\nTerminating program" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        std::cout << "Adding " << f << std::endl;
+        arr[++top] = f;
+    }
+    double pop() {
+        if (isEmpty()) {
+            std::cout << "Stack is empty" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        std::cout << "Removing " << peek() << std::endl;
+        return arr[top--];
+    }
+    double peek() {
+        if (!isEmpty()) {
+            return arr[top];
+        }
+        else {
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    int size() const {
+        return top + 1;
+    }
+    bool isEmpty() const {
+        return top == -1;
+    }
+    bool isFull() const {
+        return top == capacity - 1;
+    }
+};
+/** ------------------------------------------------------------- */
+
 int main() {
     Box box(-1);
     box.area();
@@ -348,6 +415,26 @@ int main() {
     whBox.area();
     WHBox whBox1(11,11,-11,6,6,7);
     whBox1.area();
+
+    /** stack check*/
+    Stack pt(3);
+    pt.push(1);
+    pt.push(2);
+    std::cout << "Top element is " << pt.peek() << std::endl;
+    pt.pop();
+    pt.pop();
+
+    pt.push(-33.3);
+    std::cout << "Top element is " << pt.peek() << std::endl;
+    std::cout << "Stack size is " << pt.size() << std::endl;
+
+    pt.pop();
+    if (pt.isEmpty()) {
+        std::cout << "Stack is empty" << std::endl;
+    } else {
+        std::cout << "Stack is not empty" << std::endl;
+    }
+
     return 0;
 }
 
