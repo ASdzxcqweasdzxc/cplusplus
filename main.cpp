@@ -1,5 +1,11 @@
 #include <iostream>
 #include <stdexcept>
+#define def_length 10
+#define def_width 10
+#define def_height 10
+#define def_w_width 5
+#define def_w_height 5
+#define def_hbox_height 5
 
 
 /** third part */
@@ -47,17 +53,17 @@ public:
 
     /** default constructor */
     /** 'explicit' - got parameters with defaults and prevents converting types */
-    Box(): Box(10){
+    Box(): Box(def_length){
         std::cout << "Three default Box parameters constructor" << std::endl;
     }
 
     /** one parameter */
-    explicit Box(int x): Box(x, 10){
+    explicit Box(int x): Box(x, def_width){
         std::cout << "One manual Box parameter constructor" << std::endl;
     }
 
     /** two parameters */
-    explicit Box(int x, int y): Box(x, y, 10){
+    explicit Box(int x, int y): Box(x, y, def_height){
         std::cout << "Two manual Box parameters constructor" << std::endl;
     }
 
@@ -74,9 +80,9 @@ public:
             std::cout << "Box default parameters created" << std::endl;
 
             // default parameters set here
-            setLength(10);
-            setWidth(10);
-            setHeight(10);
+            setLength(def_length);
+            setWidth(def_width);
+            setHeight(def_height);
         }
     }
 
@@ -173,12 +179,12 @@ public:
 
     /** default constructor */
     /** 'explicit' - got parameters with defaults and prevents converting types */
-    explicit WBox(): WBox(5){
+    explicit WBox(): WBox(def_w_width){
         std::cout << "Three default Box + two default WBox parameters constructor" << std::endl;
     }
 
     /** four parameters */
-    explicit WBox(int _w_window): WBox(_w_window, 5){
+    explicit WBox(int _w_window): WBox(_w_window, def_w_height){
         std::cout << "Three default Box + one manual WBox parameters constructor" << std::endl;
     }
 
@@ -193,8 +199,8 @@ public:
             std::cout << "Three default Box + two manual WBox parameters constructor" << std::endl;
 
             // set defaults
-            setWWindow(5);
-            setHWindow(5);
+            setWWindow(def_w_width);
+            setHWindow(def_w_height);
         }
     }
 
@@ -209,8 +215,8 @@ public:
             std::cout << "Default Box + default WBox parameters constructor" << std::endl;
 
             // WBox defaults
-            setWWindow(5);
-            setHWindow(5);
+            setWWindow(def_w_width);
+            setHWindow(def_w_height);
         }
     }
 
@@ -247,7 +253,7 @@ public:
 
     /** default constructor */
     /** 'explicit' - got parameters with defaults and prevents converting types */
-    HBox(): HBox(5){
+    HBox(): HBox(def_hbox_height){
         std::cout << "Three default Box + one default HBox parameters constructor" << std::endl;
     };
 
@@ -261,7 +267,7 @@ public:
             std::cout << "Default Box + default HBox parameters constructor" << std::endl;
 
             // HBox defaults
-            setHBoxHeight(5);
+            setHBoxHeight(def_hbox_height);
         }
     }
 
@@ -275,7 +281,7 @@ public:
             std::cout << "Default Box + default HBox parameters constructor" << std::endl;
 
             // HBox default
-            setHBoxHeight(5);
+            setHBoxHeight(def_hbox_height);
         }
     }
 
@@ -287,8 +293,8 @@ public:
 
     /** area of box method */
     void area() override {
-        int s = 2 * getLength() * getWidth() + 2 * getLength() * getHeight() + 2 * getWidth() * getHeight()
-                + 2 * getLength() * getHBoxHeight() + 2 * getWidth() * getHBoxHeight();
+        int s = 2*getLength()*getWidth() + 2*getLength()*getHeight() + 2*getWidth()*getHeight()
+                + 2*getLength()*getHBoxHeight() + 2*getWidth()*getHBoxHeight();
         std::cout << "Box plus HBox value= " << s << std::endl;
     }
 
@@ -339,7 +345,7 @@ public:
         capacity = size;
         top = -1;
 
-    };
+    }
     ~Stack() {
         delete[] arr;
     }
@@ -390,27 +396,26 @@ public:
 /** ------------------------------------------------------------- */
 
 int main() {
+    /** testing Box */
     Box box(-1);
     box.area();
-    Box box1(11);
-    box1.area();
     Box box2(11,12);
     box2.area();
     Box box3(10,10,10);
     box3.area();
-    Box box4(10,10,10);
+    Box box4(11,12,13);
     box4.area();
-    Box bc = box3++;
-    bc.area();
-    Box bc1 = box3+box4;
-    bc1.area();
-//    std::cout << "b3: " << bc1.getWidth() << std::endl;
-//    std::cout << "bc: " << bc.getWidth() << std::endl;
+    Box bplusAfter = box3++;
+    bplusAfter.area();
+    Box bcPlus = box3+box4;
+    bcPlus.area();
+    /** testing WBox */
     WBox wb(6,7);
-//    std::cout << "wb: " << wb.getWWindow() << std::endl;
     wb.area();
+    /** testing HBox */
     HBox hBox;
     hBox.area();
+    /** testing WHBox */
     WHBox whBox;
     whBox.area();
     WHBox whBox1(11,11,-11,6,6,7);
@@ -420,6 +425,8 @@ int main() {
     Stack pt(3);
     pt.push(1);
     pt.push(2);
+    pt.push(3);
+//    pt.push(4);   //overflow check
     std::cout << "Top element is " << pt.peek() << std::endl;
     pt.pop();
     pt.pop();
