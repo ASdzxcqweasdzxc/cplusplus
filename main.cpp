@@ -333,48 +333,39 @@ public:
 /** ------------------------------------------------------------- */
 /** class stack */
 #define SIZE 10
+template<typename T>
 class Stack{
-//    int *arr;
-    double *arr;
+    T *arr;
     int top;
     int capacity;
 public:
     Stack(int size = SIZE) {
-//        arr = new int[size];
-        arr =  new double[size];
+        arr = new T[size];
         capacity = size;
         top = -1;
-
     }
     ~Stack() {
         delete[] arr;
     }
 
-//    void push(int x) {
-//        if (isFull()) {
-//            std::cout << "Stack is full\nTerminating program" << std::endl;
-//            exit(EXIT_FAILURE);
-//        }
-//        std::cout << "Adding " << x << std::endl;
-//        arr[++top] = x;
-//    }
-    void push(double f) {
+    void push(T f) {
         if (isFull()) {
             std::cout << "Stack is full\nTerminating program" << std::endl;
             exit(EXIT_FAILURE);
         }
-        std::cout << "Adding " << f << std::endl;
+        std::cout << "Adding " << top+1 << std::endl;
         arr[++top] = f;
     }
-    double pop() {
+
+    T pop() {
         if (isEmpty()) {
             std::cout << "Stack is empty" << std::endl;
             exit(EXIT_FAILURE);
         }
-        std::cout << "Removing " << peek() << std::endl;
+        std::cout << "Removing " << top << std::endl;
         return arr[top--];
     }
-    double peek() {
+    T peek() {
         if (!isEmpty()) {
             return arr[top];
         }
@@ -397,7 +388,7 @@ public:
 
 int main() {
     /** testing Box */
-    Box box(-1);
+    Box box(11);
     box.area();
     Box box2(11,12);
     box2.area();
@@ -421,26 +412,31 @@ int main() {
     WHBox whBox1(11,11,-11,6,6,7);
     whBox1.area();
 
-    /** stack check*/
-    Stack pt(3);
-    pt.push(1);
-    pt.push(2);
-    pt.push(3);
-//    pt.push(4);   //overflow check
-    std::cout << "Top element is " << pt.peek() << std::endl;
-    pt.pop();
-    pt.pop();
-
-    pt.push(-33.3);
-    std::cout << "Top element is " << pt.peek() << std::endl;
-    std::cout << "Stack size is " << pt.size() << std::endl;
-
-    pt.pop();
-    if (pt.isEmpty()) {
-        std::cout << "Stack is empty" << std::endl;
-    } else {
-        std::cout << "Stack is not empty" << std::endl;
-    }
+    /** stack check*******************/
+    /** double check */
+    std::cout << "***** double check ****************************************************" << std::endl;
+    Stack<double> box_stack_dbl;
+    std::cout << "Empty check: " << box_stack_dbl.isEmpty() << std::endl;
+//    std::cout << "Popped: " << box_stack_dbl.pop() << std::endl;
+    box_stack_dbl.push(2.22);
+    std::cout << "Full check: " << box_stack_dbl.isFull() << std::endl;
+    std::cout << "Empty check: " << box_stack_dbl.isEmpty() << std::endl;
+    std::cout << "Popped: " << box_stack_dbl.pop() << std::endl;
+    /** int check */
+    std::cout << "***** int check ****************************************************" << std::endl;
+    Stack<int> box_stack_int;
+    box_stack_int.push(2);
+    box_stack_int.push(20);
+    box_stack_int.push(202);
+    /** string check */
+    std::cout << "***** Box check ****************************************************" << std::endl;
+    Stack<Box> vd(2);
+    std::cout << "vd size: " << vd.size() << std::endl;
+    vd.push(box);
+    vd.peek();
+    Box tbox = vd.pop();
+    std::cout << "tbox area: ";
+    tbox.area();
 
     return 0;
 }
